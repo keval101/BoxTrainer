@@ -1,0 +1,1 @@
+(self.webpackChunkonline_box_trainer=self.webpackChunkonline_box_trainer||[]).push([[592],{7441:(e,n,r)=>{"use strict";r.d(n,{u:()=>t});var o=r(639);let t=(()=>{class e{constructor(){this.backToScreen=!1}}return e.\u0275fac=function(n){return new(n||e)},e.\u0275prov=o.Yz7({token:e,factory:e.\u0275fac,providedIn:"root"}),e})()}}]);
