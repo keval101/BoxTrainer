@@ -161,9 +161,6 @@
   color: $black-color;
   font-weight: 400;
 }
-::ng-deep .p-rating-icon pi pi-star-o {
-  color: blueviolet;
-}
 
 ::ng-deep .p-datatable .p-datatable-tbody > tr {
   background: rgba($bright-grey-color, 0.5);
@@ -196,6 +193,10 @@
   button:not(:last-child) {
     width: 24.5rem;
     margin-right: 1.6rem;
+  }
+
+  #quitBtn{
+    width: 27.6rem;
   }
 }
 

@@ -74,6 +74,6 @@ export class TakescreenshotComponent implements OnInit, OnDestroy{
   }
 
   ngOnDestroy(){
-    this.videoStream.getTracks()[0].stop()
+    // this.videoStream.getTracks()[0].stop()
   }
 }

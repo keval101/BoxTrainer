@@ -97,6 +97,7 @@ export class SetupComponent implements OnInit, AfterViewInit , OnDestroy{
   }
 
   redirectToBack() {
+    // this.videoStream.getTracks()[0].stop()
     this.router.navigate(['/video']);
   }
 
@@ -106,6 +107,6 @@ export class SetupComponent implements OnInit, AfterViewInit , OnDestroy{
     } 
   }
   ngOnDestroy(){
-    this.videoStream.getTracks()[0].stop()
+   this.videoStream =null
   }
 }
