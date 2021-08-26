@@ -46,7 +46,7 @@ export class ChooseScreenshotComponent implements OnInit {
   }
 
   backToScreenShot() {
-    this.choosescreenshotService.backToScreen = true;
+    this.takescreenshotService.captures.pop()
     this.router.navigate(['/takescreenshot']);
   }
 
