@@ -161,3 +161,10 @@
     bottom: -20rem;
   }
 }
+
+
+::ng-deep .p-carousel .p-carousel-content .p-carousel-next.leval,
+::ng-deep .p-carousel .p-carousel-content .p-carousel-prev.leval
+{
+  display: none;
+}

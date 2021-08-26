@@ -14,13 +14,28 @@ export class SelfAssesmentComponent implements OnInit {
   items: any[] = [];
   responsiveOptions:any;
   resultImage: any;
-  ExcelRowDatas:string
+  touchScreen:boolean;
   constructor(
     private router: Router,
     public TranslateService: TranslateService,
     private takescreenshotService : TakescreenshotService,
     private selfAssesmentService : SelfAssesmentService
   ) {
+
+    if(window.matchMedia("(pointer: coarse)").matches) {
+      this.touchScreen = true
+      
+      setTimeout(() => {
+        var btnNext = document.querySelector(".p-carousel-next");
+        var btnPrev = document.querySelector(".p-carousel-prev");
+        btnNext.classList.add("leval") 
+        btnPrev.classList.add("leval") 
+      }, 1);
+    }else{
+      this.touchScreen = false
+    }
+    console.log(this.touchScreen)
+
 
     this.responsiveOptions = [
       {
