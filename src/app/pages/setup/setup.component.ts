@@ -1,9 +1,11 @@
 import {  Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { ConfirmationService } from 'primeng/api';
 import { Subject } from 'rxjs';
 import { HeaderService } from 'src/app/features/header/header.service';
 import { fadeAnimation } from '../../shared/app.animation';
+import { EvolutionService } from '../evaluation/evolution.service';
 import { SetupService } from './setup.service';
 declare var ImageCapture:any;
 @Component({
@@ -28,12 +30,21 @@ export class SetupComponent implements OnInit, OnDestroy{
   track:any;
   deviceLabel: any;
   flashSubject = new Subject()
+  cancelText:string;
+
   constructor(
     private router: Router,
     public TranslateService: TranslateService,
     private headerService:HeaderService,
-    private setupService:SetupService
+    private setupService:SetupService,
+    private confirmationService: ConfirmationService,
+    private evolutionService:EvolutionService
   ) {
+
+    this.TranslateService.get('setup.cancelText').subscribe( (text: string) => {
+      this.cancelText = text
+    })
+
     this.headerService.muteUnmuteMic.subscribe(
       res => this.checkedMic = res
     )
@@ -71,27 +82,8 @@ export class SetupComponent implements OnInit, OnDestroy{
       });
     }
 
-        //  navigator.mediaDevices.enumerateDevices()
-        // .then( devices =>{
-        //   devices.forEach(function(device) {
-        //     if(device.kind === 'videoinput'){
-        //       tempThis.camera.push({label : device.label, Id: device.deviceId})
-        //       tempThis.deviceID = device.deviceId
-        //     }
-        //   });
-        // })
-
     navigator.mediaDevices.enumerateDevices().then(devices => {
-      // this.camera =[]
-      // let _video = this.video.nativeElement;
-      // let tempThis = this 
-      // devices.forEach(function(device) {
-      //   if(device.kind === 'videoinput'){
-      //     tempThis.camera.push({label : device.label, Id: device.deviceId})
-      //     tempThis.deviceID = device.deviceId
-      //     tempThis.deviceLabel = device.label
-      //   }
-      // });
+
 
       // Create stream and get video track
       navigator.mediaDevices.getUserMedia({
@@ -117,23 +109,6 @@ export class SetupComponent implements OnInit, OnDestroy{
           });
         })
 
-        this.track = stream.getVideoTracks()[0];
-        //Create image capture object and get camera capabilities
-        const imageCapture = new ImageCapture(this.track)
-        const photoCapabilities = imageCapture.getPhotoCapabilities().then(() => {
-
-          let tempThis = this
-
-          this.headerService.flashToggled.subscribe(
-            flashValue => {
-              tempThis.track.applyConstraints({
-                    advanced: [{torch: flashValue}]
-              });
-            }
-          )
-        });
-
-        
       });
     });
   }
@@ -170,8 +145,7 @@ export class SetupComponent implements OnInit, OnDestroy{
 
   
   flashToggle(){
-    this.headerService.flash = this.checkedFlash
-    this.headerService.flashToggled.next(this.checkedFlash)
+
   }
 
   redirectTo() {
@@ -187,6 +161,18 @@ export class SetupComponent implements OnInit, OnDestroy{
       this.sidebar = false;
     } 
   }
+
+  confirm() {
+    this.confirmationService.confirm({
+      message: this.cancelText,
+
+      accept: () => {
+        this.evolutionService.cancelValue = true;
+        this.router.navigate(['/end']);
+      },
+    });
+  }
+
   ngOnDestroy(){
     if ((<any>window).stream) {
       (<any>window).stream.getTracks().forEach(track => {

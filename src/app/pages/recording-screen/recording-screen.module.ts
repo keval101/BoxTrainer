@@ -5,6 +5,8 @@ import { TranslateModule } from '@ngx-translate/core';
 import { RecordingScreenRoutingModule } from './recording-screen-routing.module';
 import { RecordingScreenComponent } from './recording-screen.component';
 import { HeaderModule } from 'src/app/features/header/header.module';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ConfirmationService } from 'primeng/api';
 
 @NgModule({
   declarations: [RecordingScreenComponent],
@@ -13,6 +15,8 @@ import { HeaderModule } from 'src/app/features/header/header.module';
     TranslateModule,
     RecordingScreenRoutingModule,
     HeaderModule,
+    ConfirmDialogModule,
   ],
+  providers: [ConfirmationService]
 })
 export class RecordingScreenModule {}

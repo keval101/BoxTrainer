@@ -20,6 +20,7 @@ export class EvaluationComponent implements OnInit {
   resultImage:any;
   isGoal:boolean = true;
   id:any;
+  cancelText:string;
   scores = [
     {
       title: 'Exercise duration',
@@ -49,6 +50,10 @@ export class EvaluationComponent implements OnInit {
     private takescreenshotService:TakescreenshotService,
     private selfAssesmentService : SelfAssesmentService
   ) {
+    this.TranslateService.get('evaluation.cancelText').subscribe( (text: string) => {
+      this.cancelText = text
+    })
+
    this.id = this.selfAssesmentService.imageIndex
   }
 
@@ -66,8 +71,7 @@ export class EvaluationComponent implements OnInit {
 
   confirm() {
     this.confirmationService.confirm({
-      message:
-        'You are going to quit without saving your exercise data. The exercise will be marked as cancelled trial in your course. ',
+      message: this.cancelText,
 
       accept: () => {
         this.evolutionService.cancelValue = true;

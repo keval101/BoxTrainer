@@ -15,6 +15,7 @@ export class SelfAssesmentComponent implements OnInit {
   responsiveOptions:any;
   resultImage: any;
   touchScreen:boolean;
+  imagePreviews:any;
   constructor(
     private router: Router,
     public TranslateService: TranslateService,
@@ -26,6 +27,8 @@ export class SelfAssesmentComponent implements OnInit {
       this.touchScreen = true
       
       setTimeout(() => {
+        this.imagePreviews = document.getElementsByClassName("p")
+        this.imagePreviews[0].classList.add()
         var btnNext = document.querySelector(".p-carousel-next");
         var btnPrev = document.querySelector(".p-carousel-prev");
         btnNext.classList.add("leval") 
@@ -60,6 +63,12 @@ export class SelfAssesmentComponent implements OnInit {
   setPage(indexOf){
     this.pageIndex = indexOf.page;
     this.selfAssesmentService.imageIndex = this.pageIndex
+    
+    for (let i = 0; i < this.imagePreviews.length; i++) {
+      this.imagePreviews[i].className = this.imagePreviews[i].className.replace(" active", "");
+    }
+
+    this.imagePreviews[this.pageIndex].className += " active";
 }
 
   ngOnInit(): void {

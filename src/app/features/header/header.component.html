@@ -28,12 +28,12 @@
           }"
         >
           <img src="assets/icnons/mic.png" alt="mic" id="mic" />
-          <p-inputSwitch [(ngModel)]="checkedMic" (ngModelChange)="muteUnmuteToggle()"></p-inputSwitch>
+          <p-inputSwitch [(ngModel)]="checkedMic" (ngModelChange)="muteUnmuteToggle()" class="inputSwitch"></p-inputSwitch>
         </div>
 
         <div class="header__right--icons-group" *ngIf="ontakeScreenshot">
           <img src="assets/icnons/flash.png" alt="flash" id="flash" />
-          <p-inputSwitch [(ngModel)]="checkedFlash"  (ngModelChange)="flashedToggle()"></p-inputSwitch>
+          <p-inputSwitch [(ngModel)]="checkedFlash" (ngModelChange)="flashedToggle()" class="inputSwitch"></p-inputSwitch>
         </div>
 
         <div class="header__right--icons-group" *ngIf="ontakeScreenshot">
@@ -76,6 +76,7 @@
           type="button"
           class="button"
           id="cross"
+          (click)="cancelExercise()"
         >
           <img
             src="assets/icnons/whiteCros.svg"

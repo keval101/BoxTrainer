@@ -9,6 +9,8 @@ import { HeaderService } from 'src/app/features/header/header.service';
 import { Platform } from '@angular/cdk/platform';
 import { SetupService } from '../setup/setup.service';
 import { TakescreenshotService } from '../takescreenshot/takescreenshot.service';
+import { ConfirmationService } from 'primeng/api';
+
 declare var MediaRecorder: any;
 @Component({
   selector: 'app-recording-screen',
@@ -43,7 +45,7 @@ export class RecordingScreenComponent implements OnInit, OnDestroy {
   deviceInfoId:any;
   videoTimer:Subscription;
   flashCheckedValue:boolean = false;
-
+  cancelText:string;
   @ViewChild('video') videoEle : ElementRef
   @ViewChild('videoPreview') recordedVideoEle : ElementRef;
   @ViewChild('canvas') canvas: ElementRef;
@@ -56,8 +58,14 @@ export class RecordingScreenComponent implements OnInit, OnDestroy {
     private headerService : HeaderService,
     private takescreenshotService:TakescreenshotService,
     private setupSerice:SetupService,
-    public platform: Platform
+    public platform: Platform,
+    private confirmationService: ConfirmationService,
   ) { 
+
+    this.TranslateService.get('recordingPage.cancelText').subscribe( (text: string) => {
+      this.cancelText = text
+    })
+
     setTimeout(() => {
       this.headerService.muteUnmuteMic.subscribe(
         res =>{
@@ -65,12 +73,6 @@ export class RecordingScreenComponent implements OnInit, OnDestroy {
           this.muteVideo()
         })
     }, 4000);  
-
-    this.headerService.flashToggled.subscribe(
-      res => {
-        // this.flashToggle()
-      }
-    )
     
     this.deviceInfoId = this.setupSerice.cameraIdInformation
   }
@@ -259,6 +261,15 @@ export class RecordingScreenComponent implements OnInit, OnDestroy {
    this.takescreenshotService.captures.push(this.canvas.nativeElement.toDataURL("image/png"));
   }
 
+  confirm() {
+    this.confirmationService.confirm({
+      message: this.cancelText,
+
+      accept: () => {
+        this.router.navigate(['/setup']);
+      },
+    });
+  }
 
   redirectToPhoto(){
     this.router.navigate(['/takescreenshot']);

@@ -5,6 +5,9 @@ import { HeaderService } from 'src/app/features/header/header.service';
 import { ChoosescreenshotService } from '../choose-screenshot/choosescreenshot.service';
 import { SetupService } from '../setup/setup.service';
 import { TakescreenshotService } from './takescreenshot.service';
+import { ConfirmationService } from 'primeng/api';
+import { EvolutionService } from '../evaluation/evolution.service';
+
 
 @Component({
   selector: 'app-takescreenshot',
@@ -13,44 +16,35 @@ import { TakescreenshotService } from './takescreenshot.service';
 })
 export class TakescreenshotComponent implements OnInit,OnDestroy{
   recording: boolean;
-  isScreenShot: boolean;
+  isScreenShot: boolean = true;
   takeScreenshot: boolean = false;
   onCameraClick : boolean = false;
   imageCapture:boolean = false
-  isTaken:boolean = false
   videoStream:any;
   deviceInfoId:any
   @ViewChild('video') video:ElementRef; 
   @ViewChild('canvas') canvas: ElementRef;
-
+  cancelText:string;
   constructor(
     private router: Router,
     public TranslateService: TranslateService,
-    private choosescreenshotService:ChoosescreenshotService,
+    private evolutionService:EvolutionService,
     private takescreenshotService: TakescreenshotService,
     private setupSerice:SetupService,
+    private confirmationService: ConfirmationService,
     private headerService:HeaderService
   ) {
-    this.headerService.flashToggled.subscribe(
-      res => {
-        // this.flashToggle()
-      }
-    )
+    this.TranslateService.get('takescreenshot.cancelText').subscribe( (text: string) => {
+      this.cancelText = text
+    })
 
     this.deviceInfoId = this.setupSerice.cameraIdInformation
 
   }
 
   ngOnInit(): void {
-    this.isScreenShot = true;
     this.recording = true;
     this.takeScreenshot = true
-
-    if(this.choosescreenshotService.backToScreen == true){
-      this.takeScreenshot = true;
-      this.recording = true;
-      this.isScreenShot = true;
-    }
   }
 
   ngAfterViewInit() {
@@ -68,10 +62,10 @@ export class TakescreenshotComponent implements OnInit,OnDestroy{
   }
 
   takeScreenShot(){
-   this.isTaken= true
    this.onCameraClick = true
    this.takeScreenshot = false
    this.imageCapture = true
+   this.isScreenShot = false;
    var context = this.canvas.nativeElement.getContext("2d").drawImage(this.video.nativeElement, 0, 0, 640, 480);
   }
 
@@ -79,12 +73,22 @@ export class TakescreenshotComponent implements OnInit,OnDestroy{
    this.takeScreenshot = true
    this.onCameraClick = false
    this.imageCapture = false
-   this.isTaken= false
+   this.isScreenShot = true;
   }
 
   onDone(){
     this.router.navigate(['/choosescreenshot']);
     this.takescreenshotService.resultImageSource = this.canvas.nativeElement.toDataURL("image/png");
+  }
+  onCancelExersice(){
+    console.log("keval")
+    this.confirmationService.confirm({
+      message: this.cancelText,
+
+      accept: () => {
+        this.router.navigate(['/setup']);
+      },
+    });
   }
 
   ngOnDestroy(){

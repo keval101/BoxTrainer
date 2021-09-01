@@ -1,5 +1,6 @@
 @import '../../../assets/scss/variables';
 @import '../../../assets/scss/button';
+@import '../../../assets/scss/dialogBox';
 
 .header{
     z-index: 20;
@@ -25,7 +26,9 @@
         z-index: 10;
         
         &--camera{
+          width: 55%;
           display: flex;
+          justify-content: space-between;
         }
         #cameraIcon {
             width: 7.7rem;
@@ -37,9 +40,11 @@
             cursor: pointer;
         }
         .screenShotText {
+          display: flex;
+          align-items: center;
           color: $primary-color;
           font-size: 3.2rem;
-          margin-left: 1rem;
+          margin: 0 3rem 0 0;
         }
 
         &--Btngroup{

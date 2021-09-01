@@ -42,6 +42,12 @@
           </p-carousel>
         </div>
       </div>
+
+      <div class="imagessss">
+        <div *ngFor ="let item of items ; let i = index">
+          <img [src]="item.img" alt="" class="p">
+        </div>
+      </div>
     </div>
   </div>
 
@@ -53,5 +59,36 @@
     >
       {{ 'selfassesment.next' | translate }}
     </button>
+  </div>
+</div>
+
+<div class="sidebar" @fadeAnimation  *ngIf="">
+  <button class="close"> 
+    <img src="assets/icnons/blueCros.svg" alt="close">
+  </button>
+  <div class="sidebar__header">
+    <img src="assets/images/logo.svg" alt="logo" />
+  </div>
+
+  <div class="sidebar__content">
+    <p class="sidebar__content-title">
+      {{ 'selfassesment.sidebarTitle' | translate }}
+    </p>
+    <div class="sidebar__content-goal">
+      <p class="sidebar__content-text">
+        {{ 'selfassesment.sidebarContent' | translate }}
+      </p>
+    </div>
+    <div class="sidebar__content-goal">
+      <p class="sidebar__content-text">
+        {{ 'selfassesment.compareResult' | translate }}
+      </p>
+    </div>
+    <div class="sidebar__content-goal">
+      <p class="sidebar__content-text">
+        {{ 'selfassesment.matches' | translate }}
+      </p>
+    </div>
+
   </div>
 </div>

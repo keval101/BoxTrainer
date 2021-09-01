@@ -1,5 +1,5 @@
 @import '../../../assets/scss/button';
-
+@import '../../../assets/scss/dialogBox';
 .recording {
   width: 100%;
   height: 100vh;
@@ -52,14 +52,16 @@
       background-color: rgba($background-grey-color, 0.7);
     }
 
-    &--camera {
+    &--btnGroups {
+      width: 50%;
       display: flex;
+      justify-content: space-between;
     }
-    #cameraIcon {
+    .btnIcon {
       width: 7.7rem;
     }
 
-    .cameraBtn {
+    .recordingBtn {
       background-color: transparent;
       border: none;
       cursor: pointer;
