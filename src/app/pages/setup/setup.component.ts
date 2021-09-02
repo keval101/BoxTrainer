@@ -31,6 +31,7 @@ export class SetupComponent implements OnInit, OnDestroy{
   deviceLabel: any;
   flashSubject = new Subject()
   cancelText:string;
+  userAgent:any;
 
   constructor(
     private router: Router,
@@ -48,6 +49,9 @@ export class SetupComponent implements OnInit, OnDestroy{
     this.headerService.muteUnmuteMic.subscribe(
       res => this.checkedMic = res
     )
+
+    this.userAgent = navigator.userAgent
+
   }
 
   ngOnInit(): void {
@@ -107,7 +111,31 @@ export class SetupComponent implements OnInit, OnDestroy{
               tempThis.deviceID = device.deviceId
             }
           });
-        })
+        });
+
+        this.track = stream.getVideoTracks()[0];
+        //Create image capture object and get camera capabilities
+        if (/android/i.test(this.userAgent)) {
+          alert("Android");
+          const imageCapture = new ImageCapture(this.track)
+          const photoCapabilities = imageCapture.getPhotoCapabilities().then(() => {
+  
+            let tempThis = this
+  
+            this.headerService.flashToggled.subscribe(
+              flashValue => {
+                tempThis.track.applyConstraints({
+                      advanced: [{torch: flashValue}]
+                });
+              }
+            )
+          });
+      }
+    
+      // iOS detection from: http://stackoverflow.com/a/9039885/177710
+      if (/iPad|iPhone|iPod/.test(this.userAgent) && !window.MSStream) {
+          alert("iOS");
+      }
 
       });
     });
@@ -145,7 +173,8 @@ export class SetupComponent implements OnInit, OnDestroy{
 
   
   flashToggle(){
-
+    this.headerService.flash = this.checkedFlash;
+    this.headerService.flashToggled.next(this.checkedFlash);
   }
 
   redirectTo() {
